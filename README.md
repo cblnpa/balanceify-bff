@@ -47,16 +47,7 @@ $ yarn run start:prod
 
 ## Run tests
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
+WIP
 
 ## Deployment
 
@@ -70,6 +61,114 @@ $ mau deploy
 ```
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+
+## Architecture
+
+This architecture follows multiple software principles, design patterns and best practices that make your application scalable, maintainable and modular.
+
+```
+src
+│── modules
+│   │── user
+│   │   ├── user.controller.ts   # API REST presentation
+│   │   ├── user.service.ts      # business logic and use cases
+│   │   ├── user.repository.ts   # persistency (DB, external API)
+│   │   ├── user.entity.ts       # data model
+│   │   ├── user.module.ts       # nestJS module
+│── common                       # shared code
+│   │── utils                    # reusable functions
+│   │   ├── date.util.ts
+│   │   ├── string.util.ts
+│   │   ├── format.util.ts
+│   │── helpers                  # classes or functions with specific reusable logic
+│   │   ├── password.helper.ts
+│   │   ├── jwt.helper.ts
+│   │── pipes                    # custom pipes (transformation and validations)
+│   │── guards                   # guards for authorization and authentication
+│   │── interceptors             # global interceptors
+│   │── filters                  # global excepction filters
+│── config                       # app global configuration
+│── main.ts
+│── app.module.ts
+
+```
+
+### 📌 Benefits
+
+#### 1️⃣ Modularization and High Cohesion
+
+- **Principle applied**: Separation of Concerns (SoC) and Single Responsibility Principle (SRP).
+- **Benefit**: Each module (user, product, etc.) is well-defined and isolated, allowing easy maintenance, testing and reuse.
+
+
+#### 2️⃣ Decoupling and Abstraction (Low Coupling)
+
+- **Principles applied**: 
+  - Dependency Inversion Principle (DIP) (SOLID Dependency Inversion Principle).
+  - Interface Segregation Principle (ISP).
+  - Inversion of Control (IoC) and Dependency Injection (DI) through @Injectable() in services and repositories.
+
+- **Benefit**: Allows you to swap implementations without affecting other layers, for example: 
+  - You can switch from MongoDB to PostgreSQL just by modifying user.repository.ts.
+  - You can change the business logic without affecting the API or the database.
+
+
+#### 3️⃣ Clean Code and Clean Architecture
+
+- **Pattern applied**: Clean Architecture (inspiration from Robert C. Martin).
+- **Benefit**: Separates layers of presentation, application, domain and infrastructure within the same module without overloading the structure.
+
+#### 4️⃣ Scalability and Extensibility
+
+- **Patterns applied**: 
+  - Microkernel Architecture (Plugin-based Architecture) → Each module (user, product, etc.) can be expanded without affecting other modules. 
+  - Hexagonal Architecture → Business logic is isolated from the infrastructure.
+- **Benefit**: You can add new modules without modifying the existing structure.
+
+
+#### 5️⃣ Testability and TDD Ready
+
+- **Principles applied**: Test-Driven Development (TDD) and Mocking with Dependency Injection. 
+- **Benefit**: As each layer is separated, unit tests can be easily written:
+  - You can mock repositories in service tests (user.service.ts). 
+  - You can mock services in controller tests (user.controller.ts).
+
+
+#### 6️⃣ Security with Guards and Interceptors
+
+- **Applied concepts**: Middleware Pattern, Authorization Guards and Security Best Practices. 
+- **Benefit**: Separates authentication and authorization using NestJS Guards:
+  - `auth.guard.ts` protects routes with @UseGuards(AuthGuard). 
+  - `jwt.helper.ts` handles generation and validation of JWTs.
+
+
+#### 7️⃣ Reuse with Utils and Helpers
+
+- **Patterns applied**: Utility Functions and Singleton Helper Classes.
+- **Benefit**: DRY (Don't Repeat Yourself) code, which facilitates:
+  - Use of `format.util.ts` in multiple modules.
+  - Centralization of password hashing in `password.helper.ts`.
+
+
+#### 8️⃣ Error Handling with Filters
+
+- **Pattern applied**: Global Exception Handling with Exception Filters.
+- **Benefit**: All exceptions are caught in `filters/http-exception.filter.ts`, avoiding unexpected errors in production.
+
+
+#### 9️⃣ Centralized Configuration
+
+- **Patterns applied**: Configuration Management and Environment Variable Handling. 
+- **Benefit**: config/ centralizes environment variables (.env), allowing:
+  - Different configurations for development, production and testing.
+  - No credentials exposed in the code.
+
+This architecture is not only clean and organized, but also follows SOLID, Clean Architecture, Inversion of Control and Microkernel Architecture principles, making it modular, scalable and testable.
+
+🚀 Your code is ready for growth without becoming chaotic!
+
+> 🔹 **Disclaimer**: this is a project for personal use and educational purposes. <br> The description of this architecture is the ideal to move forward with the content of the project, but possibly not 100% applicable
+
 
 ## Resources
 
@@ -87,12 +186,6 @@ Check out a few resources that may come in handy when working with NestJS:
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
