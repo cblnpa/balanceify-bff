@@ -17,8 +17,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "lib": ["ES2022"]
+    "lib": ["ES2022"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src/**/*", "commitlint.config.cjs"],
   "exclude": ["node_modules"]
 }
