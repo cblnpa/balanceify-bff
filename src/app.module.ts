@@ -1,8 +1,21 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './modules/user/user.module.js';
+import {
+  AccountModule,
+  SubscriptionModule,
+  SummaryModule,
+  TransactionModule,
+  UserModule,
+} from './modules/index.js';
 
 @Module({
-  imports: [MongooseModule.forRoot(''), UserModule],
+  imports: [
+    MongooseModule.forRoot(''),
+    AccountModule,
+    SubscriptionModule,
+    SummaryModule,
+    TransactionModule,
+    UserModule,
+  ],
 })
 export class AppModule {}
