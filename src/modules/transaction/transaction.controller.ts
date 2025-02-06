@@ -1,10 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { ErrorResponse, SuccessResponse } from '../../common/index.js';
 import { Transaction } from './transaction.schema.js';
 import { TransactionService } from './transaction.service.js';
 
 @Controller('transaction')
 export class TransactionController {
-  constructor(private readonly transactionService: TransactionService) {}
+  constructor(
+    @Inject(TransactionService) private readonly transactionService: TransactionService,
+  ) {}
 
   @Post()
   async createTransaction(
@@ -16,7 +19,7 @@ export class TransactionController {
       amount: number;
       description?: string;
     },
-  ): Promise<Transaction> {
+  ): Promise<SuccessResponse<Transaction> | ErrorResponse> {
     return this.transactionService.createTransaction(
       createTransactionDto.date,
       createTransactionDto.category,
