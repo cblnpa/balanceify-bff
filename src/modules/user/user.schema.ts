@@ -1,24 +1,18 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Account } from '../account/account.schema.js';
-import { Subscription } from '../subscription/subscription.schema.js';
 
 @Schema()
 export class User extends Document {
-  @Prop({ required: true })
+  declare _id: Types.ObjectId;
+
+  @Prop({ required: true, type: String })
   name!: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, type: String })
   email!: string;
 
-  @Prop({ required: true, select: false })
+  @Prop({ required: true, select: false, type: String })
   password!: string;
-
-  @Prop({ type: [{ type: Object }] })
-  accounts?: Account[];
-
-  @Prop({ type: [{ type: Object }] })
-  subscriptions?: Subscription[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
