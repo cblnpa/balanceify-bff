@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import databaseConfig from './config/database.config.js';
 import {
   AccountModule,
+  CategoryModule,
   SubscriptionModule,
   SummaryModule,
   TransactionModule,
@@ -21,6 +22,7 @@ import {
       }),
     }),
     AccountModule,
+    CategoryModule,
     SubscriptionModule,
     SummaryModule,
     TransactionModule,
