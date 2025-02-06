@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import { ErrorResponse, SuccessResponse } from '../../common/index.js';
 import { Category } from './category.schema.js';
 import { CategoryService } from './category.service.js';
 
 @Controller('category')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(@Inject(CategoryService) private readonly categoryService: CategoryService) {}
 
   @Post()
   async createCategory(
@@ -26,14 +26,14 @@ export class CategoryController {
     return this.categoryService.findById(id);
   }
 
-  @Get(':type')
+  @Get('type')
   async getCategoriesByType(
-    @Param('type') type: string,
+    @Query('type') type: string,
   ): Promise<SuccessResponse<Category[]> | ErrorResponse> {
     return this.categoryService.findByType(type);
   }
 
-  @Get()
+  @Get('name')
   async getCategoryByName(
     @Query('name') name: string,
   ): Promise<SuccessResponse<Category> | ErrorResponse> {
